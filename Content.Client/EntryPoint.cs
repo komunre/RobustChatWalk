@@ -4,12 +4,17 @@ using Robust.Shared.GameObjects;
 using Robust.Shared.IoC;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Timing;
+using Robust.Client.Graphics;
+using Content.Client.Overlays;
 
 // DEVNOTE: Games that want to be on the hub are FORCED use the "Content." prefix for assemblies they want to load.
 namespace Content.Client
 {
     public class EntryPoint : GameClient
     {
+        public override void PreInit() {
+            IoCManager.Resolve<IClyde>().SetWindowTitle("RobustChatWalk");
+        }
         public override void Init()
         {
             var factory = IoCManager.Resolve<IComponentFactory>();
@@ -49,6 +54,11 @@ namespace Content.Client
             
             // Optionally, singleplayer also works!
             // client.StartSinglePlayer();
+            
+            IoCManager.Resolve<ILightManager>().Enabled = false;
+            
+            var overlayManager = IoCManager.Resolve<IOverlayManager>();
+            overlayManager.AddOverlay(new ChatterOverlay());
         }
 
         protected override void Dispose(bool disposing)
