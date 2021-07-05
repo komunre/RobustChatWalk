@@ -32,11 +32,14 @@ namespace Content.Client
                 prototypes.RegisterIgnore(ignoreName);
             }
 
+            IoCManager.Register<InputHookupManager, InputHookupManager>();
+
             ClientContentIoC.Register();
 
             IoCManager.BuildGraph();
 
             // DEVNOTE: This is generally where you'll be setting up the IoCManager further.
+            IoCManager.Resolve<InputHookupManager>().Initialize();
         }
 
         public override void PostInit()

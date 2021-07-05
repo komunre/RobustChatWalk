@@ -8,6 +8,7 @@ using Robust.Shared.Players;
 using System;
 using Robust.Shared.Serialization;
 using Robust.Shared.Log;
+using Content.Shared;
 
 namespace Content.Shared.GameOjects
 {
@@ -16,8 +17,14 @@ namespace Content.Shared.GameOjects
     {
         public override string Name => "Chatter";
         public string PlayerName = "default";
-        public float Speed = 0.5f;
+        public float Speed = 0.2f;
         public Button PressedButton = Button.None;
+        
+        public override ComponentState GetComponentState(ICommonSession session) {
+            return new ChatterComponentState(PressedButton, PlayerName);
+        }
+
+        
     }
 
     public class ChatterSystem : EntitySystem {
@@ -26,20 +33,19 @@ namespace Content.Shared.GameOjects
             base.Initialize();
 
             CommandBinds.Builder
-                .Bind(EngineKeyFunctions.MoveUp, new ButtonInputHandler(Button.Up, SetMovementInput))
-                .Bind(EngineKeyFunctions.MoveDown, new ButtonInputHandler(Button.Down, SetMovementInput))
-                .Bind(EngineKeyFunctions.MoveRight, new ButtonInputHandler(Button.Right, SetMovementInput))
-                .Bind(EngineKeyFunctions.MoveLeft, new ButtonInputHandler(Button.Left, SetMovementInput))
+                .Bind(EngineKeyFunctions.MoveUp, new ButtonInputHandler(Button.Up))
+                .Bind(EngineKeyFunctions.MoveDown, new ButtonInputHandler(Button.Down))
+                .Bind(EngineKeyFunctions.MoveRight, new ButtonInputHandler(Button.Right))
+                .Bind(EngineKeyFunctions.MoveLeft, new ButtonInputHandler(Button.Left))
                 .Register<ChatterSystem>();
+
+            Logger.Debug("Chatter system initialied");
         }
 
-        private void SetMovementInput(ICommonSession session, Button button, bool state) {
-            Logger.Debug("Entering button handling...");
+        private static void SetMovementInput(ICommonSession session, Button button, bool state) {
             if (session == null || session.AttachedEntity == null || !session.AttachedEntity.TryGetComponent<ChatterComponent>(out var chatter)) {
                 return;
             }
-
-            Logger.Debug("Handling button...");
 
             if (state) {
                 chatter.PressedButton = button;
@@ -55,25 +61,43 @@ namespace Content.Shared.GameOjects
             public delegate void MoveHandler(ICommonSession session, Button button, bool state);
 
             private readonly Button _button;
-            private readonly MoveHandler _handler;
+            //private readonly MoveHandler _handler;
             
-            public ButtonInputHandler(Button button, MoveHandler handler)
+            public ButtonInputHandler(Button button)
             {
                 _button = button;
-                _handler = handler;
+                //_handler = handler;
+            }
+
+            public override void Enabled(ICommonSession session) {
+                //_handler.Invoke(session, _button, true);
+            }
+
+            public override void Disabled(ICommonSession session) {
+                //_handler.Invoke(session, _button, false);
             }
             
             public override bool HandleCmdMessage(ICommonSession session, InputCmdMessage message)
             {
-                Logger.Debug("Pre-handling button...");
                 if (message is not FullInputCmdMessage full)
                     return false;
 
-                _handler.Invoke(session, _button, full.State == BoundKeyState.Down);
+                SetMovementInput(session, _button, full.State == BoundKeyState.Down);
                 return false;
             }
         }
         
+    }
+
+    [Serializable, NetSerializable]
+    public class ChatterComponentState : ComponentState {
+        public Button Pressed { get; }
+        public string PlayerName { get; }
+
+        public ChatterComponentState(Button pressed, string playerName) : base(ContentNetIDs.CHATTER) {
+            Pressed = pressed;
+            PlayerName = playerName;
+        }
     }
     
     [Flags, Serializable, NetSerializable]

@@ -7,5 +7,7 @@ namespace Content.Shared.Input
     {
         // DEVNOTE: Stick keys you want to be bindable here.
         // public static readonly DummyKey = "DummyKey";
+        //public static readonly BoundKeyFunction MoveUp = "MoveUp";
+        //public static readonly BoundKeyFunction MoveDown = "MoveDown";
     }
 }
