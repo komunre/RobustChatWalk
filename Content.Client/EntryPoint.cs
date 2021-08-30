@@ -6,6 +6,7 @@ using Robust.Shared.Prototypes;
 using Robust.Shared.Timing;
 using Robust.Client.Graphics;
 using Content.Client.Overlays;
+using Robust.Client.State;
 
 // DEVNOTE: Games that want to be on the hub are FORCED use the "Content." prefix for assemblies they want to load.
 namespace Content.Client
@@ -53,7 +54,7 @@ namespace Content.Client
             // Be sure to check out StateManager for this! Below you'll find examples to start a game.
             
             // If you want to connect to a server...
-            // client.ConnectToServer("ip-goes-here", 1212);
+            client.ConnectToServer("localhost", 1212);
             
             // Optionally, singleplayer also works!
             // client.StartSinglePlayer();
@@ -62,6 +63,8 @@ namespace Content.Client
             
             var overlayManager = IoCManager.Resolve<IOverlayManager>();
             overlayManager.AddOverlay(new ChatterOverlay());
+
+            IoCManager.Resolve<IStateManager>().RequestStateChange<GameScreen>();
         }
 
         protected override void Dispose(bool disposing)
