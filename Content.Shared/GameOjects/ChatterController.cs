@@ -20,16 +20,16 @@ namespace Content.Shared.GameOjects
 
                 switch (chatter.PressedButton) { 
                     case Button.Up:
-                        direction -= Vector2.UnitY;
-                        break;
-                    case Button.Down:
                         direction += Vector2.UnitY;
                         break;
+                    case Button.Down:
+                        direction -= Vector2.UnitY;
+                        break;
                     case Button.Right:
-                        direction -=  Vector2.UnitX;
+                        direction +=  Vector2.UnitX;
                         break;
                     case Button.Left:
-                        direction += Vector2.UnitX;
+                        direction -= Vector2.UnitX;
                         break;
                 }
 
