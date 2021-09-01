@@ -10,6 +10,7 @@ using Robust.Server.Player;
 using Robust.Shared.Utility;
 using Robust.Shared.Enums;
 using Robust.Shared.Log;
+using Content.Shared.GameOjects;
 
 
 namespace Content.Server {
@@ -26,6 +27,12 @@ namespace Content.Server {
             StartGame();
         }
 
+        public override void Shutdown() {
+            base.Shutdown();
+            _mapManager.DeleteMap(_map);
+            _playerManager.PlayerStatusChanged -= PlayerStatusChanged;
+        }
+
         private void PlayerStatusChanged(object sender, SessionStatusEventArgs status) {
             if (status.NewStatus == SessionStatus.Connected) {
                 status.Session.JoinGame();
@@ -33,11 +40,17 @@ namespace Content.Server {
             if (status.NewStatus == SessionStatus.InGame) {
                 SpawnPlayer(status.Session);
             }
+            /*if (status.NewStatus == SessionStatus.Disconnected) {
+                //status.Session.AttachedEntity.Delete();
+            }*/
         }
 
         private void SpawnPlayer(IPlayerSession session) {
             Logger.Debug("Spawning player...");
-            var entity = EntityManager.SpawnEntity("Chatter",  new MapCoordinates(WalkArenaSize.X / 2f, WalkArenaSize.Y / 2f, _map));
+            var random = IoCManager.Resolve<RobustRandom>();
+            var entity = EntityManager.SpawnEntity("Chatter",  new MapCoordinates(WalkArenaSize.X / 2f + random.Next(1, 4), WalkArenaSize.Y / 2f + random.Next(1, 4), _map));
+            entity.Dirty();
+            entity.GetComponent<ChatterComponent>().Dirty();
             session.AttachToEntity(entity);
         }
 

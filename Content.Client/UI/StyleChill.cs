@@ -37,13 +37,15 @@ namespace Content.Client.UI
                     new SelectorElement(typeof(TextureButton), new [] {ButtonClass}, null, new[] {TextureButton.StylePseudoClassNormal}),
                     new[] {
                         new StyleProperty(TextureButton.StylePropertyTexture, buttonTextureRes),
-                        new StyleProperty(Control.StylePropertyModulateSelf, Color.FromHex("#FFFFFF"))
+                        new StyleProperty(Control.StylePropertyModulateSelf, Color.FromHex("#FFFFFF")),
+                        new StyleProperty("font", notoSansRes),
                     }
                 ),
                 new StyleRule(
                     new SelectorElement(typeof(LineEdit), new[] {LineEditClass}, null, null),
                     new[] {
-                        new StyleProperty(LineEdit.StylePropertyStyleBox, new StyleBoxEmpty())
+                        new StyleProperty(LineEdit.StylePropertyStyleBox, new StyleBoxEmpty()),
+                        new StyleProperty("font", notoSansRes),
                     }
                 )
             };

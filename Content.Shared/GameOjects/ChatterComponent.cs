@@ -24,7 +24,14 @@ namespace Content.Shared.GameOjects
             return new ChatterComponentState(PressedButton, PlayerName);
         }
 
-        
+        public override void HandleComponentState(ComponentState state, ComponentState nextState) {
+            if (state is not ChatterComponentState)
+                return;
+            
+            var chState = (ChatterComponentState)state;
+            PressedButton = chState.Pressed;
+            PlayerName = chState.PlayerName;
+        }
     }
 
     public class ChatterSystem : EntitySystem {
@@ -39,7 +46,7 @@ namespace Content.Shared.GameOjects
                 .Bind(EngineKeyFunctions.MoveLeft, new ButtonInputHandler(Button.Left))
                 .Register<ChatterSystem>();
 
-            Logger.Debug("Chatter system initialied");
+            Logger.Debug("Chatter system initialized");
         }
 
         private static void SetMovementInput(ICommonSession session, Button button, bool state) {
