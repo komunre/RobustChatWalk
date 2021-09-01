@@ -13,11 +13,10 @@ namespace Content.Client.UI
         public OutputPanel Contents;
         public HistoryLineEdit LineInput;
         public Button SendButton;
-        public PanelContainer EditPanel;
+        public BoxContainer EditPanel;
         private string _msg = "";
         public ChatBox() {
             AddChild(new PanelContainer {
-                PanelOverride = new StyleBoxFlat { BackgroundColor = Color.FromHex("#81d4df") },
                 VerticalExpand = true,
                 HorizontalExpand = true,
                 MinHeight = 170f,
@@ -26,9 +25,11 @@ namespace Content.Client.UI
                     (Contents = new OutputPanel {
                         VerticalExpand = true
                     }),
-                    (EditPanel = new PanelContainer {
-                        MaxHeight = 20f,
-                        PanelOverride = new StyleBoxFlat { BackgroundColor = Color.White },
+                    (EditPanel = new BoxContainer {
+                        //VerticalAlignment = VAlignment.Bottom,
+                        MaxHeight = 50f,
+                        Orientation = BoxContainer.LayoutOrientation.Horizontal,
+                        //PanelOverride = new StyleBoxFlat { BackgroundColor = Color.White },
                         Children = {
                             (LineInput = new HistoryLineEdit {
                                 PlaceHolder = "Enter message",
@@ -57,8 +58,18 @@ namespace Content.Client.UI
 
         protected void Setup() {
             LineInput.OnTextChanged += OnTextChanged;
-            LineInput.OnMouseEntered +=  EnterFocus;
-            LineInput.OnMouseExited += DeEnterFocus;
+            //LineInput.OnMouseEntered +=  EnterFocus;
+            //LineInput.OnMouseExited += DeEnterFocus;
+            //LineInput.OnTextEntered +=  // Message send here
+        }
+
+        public void ToggleKeyboardFocus() {
+            if (LineInput.HasKeyboardFocus()) {
+                LineInput.ReleaseKeyboardFocus();
+            }
+            else {
+                LineInput.GrabKeyboardFocus();
+            }
         }
 
         private void EnterFocus(GUIMouseHoverEventArgs args) {
@@ -72,12 +83,15 @@ namespace Content.Client.UI
 
         private void OnTextChanged(LineEdit.LineEditEventArgs args) {
             _msg = args.Text;
+            LineInput.Text = _msg;
+            
+            Logger.Debug("Current message: " + _msg);
         }
 
-        protected override void KeyBindDown(GUIBoundKeyEventArgs args) {
+        /*protected override void KeyBindDown(GUIBoundKeyEventArgs args) {
             if (args.CanFocus) {
                 LineInput.GrabKeyboardFocus();
             }
-        }
+        }*/
     }
 }

@@ -12,6 +12,8 @@ using Robust.Client.Player;
 using Content.Client.UI;
 using Robust.Client.GameObjects;
 using Robust.Shared.Log;
+using Content.Shared.Input;
+using Robust.Shared.Input.Binding;
 
 namespace Content.Client
 {
@@ -21,7 +23,8 @@ namespace Content.Client
         [Dependency] protected IPlayerManager PlayerManager = default!;
         [Dependency] private IEyeManager _eyeManager = default!;
         [Dependency] private readonly IUserInterfaceManager _userInterfaceManager = default!;
-        
+        [Dependency] private readonly IInputManager _inputManager = default!;
+
         public static readonly Vector2i ViewportSize = (EyeManager.PixelsPerMeter * 21, EyeManager.PixelsPerMeter * 15);
         private ChatBox _gameChat;
         public ViewportContainer Viewport { get; private set; }
@@ -33,6 +36,14 @@ namespace Content.Client
             Viewport = new ViewportContainer {
                 AlwaysRender = true,
             };
+
+            _inputManager.SetInputCommand(ContentKeyFunctions.ChatFocus, InputCmdHandler.FromDelegate(_ => {
+                _gameChat.ToggleKeyboardFocus();
+            }));
+
+            _inputManager.SetInputCommand(ContentKeyFunctions.Send, InputCmdHandler.FromDelegate(_ => {
+                // Send message here
+            }));
 
             LayoutContainer.SetAnchorAndMarginPreset(_gameChat, LayoutContainer.LayoutPreset.TopRight);
 

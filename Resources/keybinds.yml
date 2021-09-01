@@ -186,3 +186,9 @@ binds: # These are all the current engine keybinds.
   type: State
   key: Tab
   mod1: Shift
+- function: ChatFocus
+  type: Toggle
+  key: T
+- function: Send
+  type: Toggle
+  key: Return

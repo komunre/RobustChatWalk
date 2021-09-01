@@ -19,10 +19,10 @@ namespace Content.Client {
             }
 
             var ent = msg.AttachedEntity;
-            var nullEnt = EntityManager.SpawnEntity(null, new MapCoordinates(WalkArenaSize.X / 2f, WalkArenaSize.Y / 2f, ent.Transform.MapID));
-            var eye = nullEnt.AddComponent<EyeComponent>();
-            eye.Current = true;
-            eye.Zoom = Vector2.One;
+            //var nullEnt = EntityManager.SpawnEntity(null, new MapCoordinates(WalkArenaSize.X / 2f, WalkArenaSize.Y / 2f, ent.Transform.MapID));
+            //var eye = nullEnt.AddComponent<EyeComponent>();
+            //eye.Current = true;
+            //eye.Zoom = Vector2.One;
         }
     }
 }

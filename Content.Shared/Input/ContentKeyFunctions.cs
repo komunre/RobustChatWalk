@@ -9,5 +9,7 @@ namespace Content.Shared.Input
         // public static readonly DummyKey = "DummyKey";
         //public static readonly BoundKeyFunction MoveUp = "MoveUp";
         //public static readonly BoundKeyFunction MoveDown = "MoveDown";
+        public static readonly BoundKeyFunction ChatFocus = "ChatFocus";
+        public static readonly BoundKeyFunction Send = "Send";
     }
 }

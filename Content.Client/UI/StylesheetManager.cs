@@ -11,6 +11,7 @@ namespace Content.Client.UI
 
         public Stylesheet SheetChill { get; private set; }
         public void Initialize() {
+            IoCManager.InjectDependencies(this);
             SheetChill = new StyleChill(_resourceCache).Stylesheet;
 
             _UIManager.Stylesheet = SheetChill;
