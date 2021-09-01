@@ -19,17 +19,18 @@ namespace Content.Server {
         [Dependency] private readonly IMapManager _mapManager = default!;
         [Dependency] private readonly IPlayerManager _playerManager = default!;
         private MapId _map;
+        private GameState _gameState = GameState.Start;
         public override void Initialize() {
             base.Initialize();
 
             _playerManager.PlayerStatusChanged += PlayerStatusChanged;
 
-            StartGame();
+            //StartGame();
         }
 
         public override void Shutdown() {
             base.Shutdown();
-            _mapManager.DeleteMap(_map);
+            Clear();
             _playerManager.PlayerStatusChanged -= PlayerStatusChanged;
         }
 
@@ -47,8 +48,8 @@ namespace Content.Server {
 
         private void SpawnPlayer(IPlayerSession session) {
             Logger.Debug("Spawning player...");
-            var random = IoCManager.Resolve<RobustRandom>();
-            var entity = EntityManager.SpawnEntity("Chatter",  new MapCoordinates(WalkArenaSize.X / 2f + random.Next(1, 4), WalkArenaSize.Y / 2f + random.Next(1, 4), _map));
+            //var random = IoCManager.Resolve<RobustRandom>();
+            var entity = EntityManager.SpawnEntity("Chatter",  new MapCoordinates(WalkArenaSize.X / 2f, WalkArenaSize.Y / 2f, _map));
             entity.Dirty();
             entity.GetComponent<ChatterComponent>().Dirty();
             session.AttachToEntity(entity);
@@ -57,9 +58,24 @@ namespace Content.Server {
         private void StartGame() {
             _map = _mapManager.CreateMap();
         }
+
+        private void Clear() {
+            _mapManager.DeleteMap(_map);
+        }
         public override void Update(float frameTime)
         {
             base.Update(frameTime);
+
+            switch (_gameState) {
+                case GameState.Start:
+                    StartGame();
+                    _gameState = GameState.InProgress;
+                    break;
+                case GameState.End:
+                    Clear();
+                    _gameState = GameState.Start;
+                    break;
+            }
         }
     }
 }

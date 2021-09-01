@@ -2,6 +2,8 @@ using Robust.Shared.ContentPack;
 using Robust.Shared.GameObjects;
 using Robust.Shared.IoC;
 using Robust.Shared.Timing;
+using Robust.Shared.Configuration;
+using Robust.Shared;
 
 // DEVNOTE: Games that want to be on the hub are FORCED use the "Content." prefix for assemblies they want to load.
 namespace Content.Server
@@ -25,6 +27,8 @@ namespace Content.Server
 
             IoCManager.BuildGraph();
 
+            factory.GenerateNetIds();
+
             // DEVNOTE: This is generally where you'll be setting up the IoCManager further.
         }
 
@@ -32,6 +36,8 @@ namespace Content.Server
         {
             base.PostInit();
             // DEVNOTE: Can also initialize IoC stuff more here.
+
+            //IoCManager.Resolve<IConfigurationManager>().SetCVar(CVars.NetPVS, false);
         }
 
         public override void Update(ModUpdateLevel level, FrameEventArgs frameEventArgs)

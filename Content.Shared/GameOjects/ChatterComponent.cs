@@ -9,10 +9,11 @@ using System;
 using Robust.Shared.Serialization;
 using Robust.Shared.Log;
 using Content.Shared;
+using Robust.Shared.GameStates;
 
 namespace Content.Shared.GameOjects
 {
-    [RegisterComponent]
+    [RegisterComponent, NetworkedComponent]
     public class ChatterComponent : Component
     {
         public override string Name => "Chatter";
@@ -20,7 +21,7 @@ namespace Content.Shared.GameOjects
         public float Speed = 0.2f;
         public Button PressedButton = Button.None;
         
-        public override ComponentState GetComponentState(ICommonSession session) {
+        /*public override ComponentState GetComponentState(ICommonSession session) {
             return new ChatterComponentState(PressedButton, PlayerName);
         }
 
@@ -31,7 +32,7 @@ namespace Content.Shared.GameOjects
             var chState = (ChatterComponentState)state;
             PressedButton = chState.Pressed;
             PlayerName = chState.PlayerName;
-        }
+        }*/
     }
 
     public class ChatterSystem : EntitySystem {
@@ -46,7 +47,21 @@ namespace Content.Shared.GameOjects
                 .Bind(EngineKeyFunctions.MoveLeft, new ButtonInputHandler(Button.Left))
                 .Register<ChatterSystem>();
 
+            SubscribeLocalEvent<ChatterComponent, ComponentGetState>(GetChatterState);
+            SubscribeLocalEvent<ChatterComponent, ComponentHandleState>(HandleChatterState);
             Logger.Debug("Chatter system initialized");
+        }
+
+        private void GetChatterState(EntityUid id, ChatterComponent component, ref ComponentGetState args) {
+            args.State = new ChatterComponentState(component.PressedButton, component.PlayerName);
+        }
+
+        private void HandleChatterState(EntityUid id, ChatterComponent component, ref ComponentHandleState args) {
+            if (args.Current is not ChatterComponentState state)
+                return;
+            
+            component.PressedButton = state.Pressed;
+            component.PlayerName = state.PlayerName;
         }
 
         private static void SetMovementInput(ICommonSession session, Button button, bool state) {
@@ -101,7 +116,7 @@ namespace Content.Shared.GameOjects
         public Button Pressed { get; }
         public string PlayerName { get; }
 
-        public ChatterComponentState(Button pressed, string playerName) : base(ContentNetIDs.CHATTER) {
+        public ChatterComponentState(Button pressed, string playerName) : base(/*ContentNetIDs.CHATTER*/) {
             Pressed = pressed;
             PlayerName = playerName;
         }
