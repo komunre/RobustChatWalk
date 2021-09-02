@@ -62,6 +62,23 @@ namespace Content.Client
                 }
             }));
 
+            CommandBinds.Builder
+                .Bind(ContentKeyFunctions.Send, InputCmdHandler.FromDelegate(_ => {
+                    _gameChat.SendMessage();
+                }))
+                .Bind(ContentKeyFunctions.ChatFocus, InputCmdHandler.FromDelegate(_ => {
+                    _gameChat.ToggleKeyboardFocus();
+                }))
+                .Bind(ContentKeyFunctions.OpenEntSpawn,InputCmdHandler.FromDelegate(_ => {
+                    Logger.Debug("Toggling spawn window...");
+                    if (!_spawnEntWindow.IsOpen) {
+                        _spawnEntWindow.Open();
+                    }
+                    else {
+                        _spawnEntWindow.Close();
+                    }
+                })).Register<GameScreen>();
+
             LayoutContainer.SetAnchorAndMarginPreset(_gameChat, LayoutContainer.LayoutPreset.TopRight);
 
             //Viewport.AddChild(_gameChat);

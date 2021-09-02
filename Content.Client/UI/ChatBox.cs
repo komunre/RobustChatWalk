@@ -69,8 +69,12 @@ namespace Content.Client.UI
 
             IoCManager.Resolve<ChatManager>().SetPanel(Contents);
             SendButton.OnButtonDown += (args) => {
-                IoCManager.Resolve<ChatManager>().SendMessage(_msg, IoCManager.Resolve<IPlayerManager>().LocalPlayer.Session.AttachedEntity);
+                SendMessage();
             };
+        }
+
+        public void SendMessage() {
+            IoCManager.Resolve<ChatManager>().SendMessage(_msg, IoCManager.Resolve<IPlayerManager>().LocalPlayer.Session.AttachedEntity);
         }
 
         public void ToggleKeyboardFocus() {

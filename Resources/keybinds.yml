@@ -9,6 +9,9 @@ binds: # These are all the current engine keybinds.
 - function: OpenEntitySpawn
   type: State
   key: Q
+- function: Interact
+  type: State
+  key: MouseLeft
 - function: UIClick
   type: State
   key: MouseLeft

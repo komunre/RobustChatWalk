@@ -1,0 +1,6 @@
+- type: entity
+  id: Orange
+  components:
+    - type: Sprite
+      sprite: /Textures/Food/orange.rsi
+      state: icon
