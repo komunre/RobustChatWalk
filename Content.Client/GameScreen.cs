@@ -14,6 +14,9 @@ using Robust.Client.GameObjects;
 using Robust.Shared.Log;
 using Content.Shared.Input;
 using Robust.Shared.Input.Binding;
+using Robust.Client.Placement;
+using Robust.Client.ResourceManagement;
+using Robust.Shared.Prototypes;
 
 namespace Content.Client
 {
@@ -28,6 +31,7 @@ namespace Content.Client
         public static readonly Vector2i ViewportSize = (EyeManager.PixelsPerMeter * 21, EyeManager.PixelsPerMeter * 15);
         private ChatBox _gameChat;
         public ViewportContainer Viewport { get; private set; }
+        private EntitySpawnWindow _spawnEntWindow;
         public override void Startup()
         {
             _gameChat = new ChatBox() { Visible = true };
@@ -43,6 +47,19 @@ namespace Content.Client
 
             _inputManager.SetInputCommand(ContentKeyFunctions.Send, InputCmdHandler.FromDelegate(_ => {
                 // Send message here
+            }));
+
+            _spawnEntWindow = new EntitySpawnWindow(IoCManager.Resolve<IPlacementManager>(), IoCManager.Resolve<IPrototypeManager>(), IoCManager.Resolve<IResourceCache>());
+
+            _spawnEntWindow.Open();
+            _inputManager.SetInputCommand(ContentKeyFunctions.OpenEntSpawn, InputCmdHandler.FromDelegate(_ => {
+                Logger.Debug("Toggling spawn window...");
+                if (!_spawnEntWindow.IsOpen) {
+                    _spawnEntWindow.Open();
+                }
+                else {
+                    _spawnEntWindow.Close();
+                }
             }));
 
             LayoutContainer.SetAnchorAndMarginPreset(_gameChat, LayoutContainer.LayoutPreset.TopRight);

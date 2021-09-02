@@ -8,6 +8,7 @@ using Robust.Client.Graphics;
 using Content.Client.Overlays;
 using Robust.Client.State;
 using Content.Client.UI;
+using Content.Client.Chat;
 
 // DEVNOTE: Games that want to be on the hub are FORCED use the "Content." prefix for assemblies they want to load.
 namespace Content.Client
@@ -35,7 +36,9 @@ namespace Content.Client
                 prototypes.RegisterIgnore(ignoreName);
             }
 
+            // REGISTER MANAGERS HERE!!!
             IoCManager.Register<InputHookupManager, InputHookupManager>();
+            IoCManager.Register<ChatManager>();
 
             ClientContentIoC.Register();
 
@@ -45,6 +48,7 @@ namespace Content.Client
 
             // DEVNOTE: This is generally where you'll be setting up the IoCManager further.
             IoCManager.Resolve<InputHookupManager>().Initialize();
+            IoCManager.Resolve<ChatManager>().Initialize();
         }
 
         public override void PostInit()
@@ -69,6 +73,8 @@ namespace Content.Client
             
             var overlayManager = IoCManager.Resolve<IOverlayManager>();
             overlayManager.AddOverlay(new ChatterOverlay());
+            //overlayManager.AddOverlay(new SpriteOverlay());
+            overlayManager.AddOverlay(new FloorOverlay());
 
             IoCManager.Resolve<IStateManager>().RequestStateChange<GameScreen>();
         }

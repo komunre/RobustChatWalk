@@ -32,7 +32,12 @@ namespace Content.Client.UI
             };
 
             var panel = new StyleBoxFlat {
-                BackgroundColor = Color.FromHex("#81d4df")
+                BackgroundColor = Color.FromHex("#81d4df"),
+                BorderColor = Color.FromHex("#47747a"),
+            };
+
+            var output = new StyleBoxFlat {
+                BackgroundColor = Color.FromHex("#c3dfe3"),
             };
             
             StyleRules = new [] {
@@ -56,7 +61,13 @@ namespace Content.Client.UI
                         new StyleProperty(LineEdit.StylePropertyStyleBox, lineEdit),
                         //new StyleProperty("font", notoSans),
                     }
-                )
+                ),
+                new StyleRule(
+                    new SelectorElement(typeof(OutputPanel), null, null, null),
+                    new [] {
+                        new StyleProperty(OutputPanel.StylePropertyStyleBox, output),
+                    }
+                ),
             };
 
             Stylesheet = new Stylesheet(StyleRules);

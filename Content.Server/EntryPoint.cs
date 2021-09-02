@@ -4,6 +4,7 @@ using Robust.Shared.IoC;
 using Robust.Shared.Timing;
 using Robust.Shared.Configuration;
 using Robust.Shared;
+using Content.Server.Chat;
 
 // DEVNOTE: Games that want to be on the hub are FORCED use the "Content." prefix for assemblies they want to load.
 namespace Content.Server
@@ -23,6 +24,8 @@ namespace Content.Server
                 factory.RegisterIgnore(ignoreName);
             }
 
+            IoCManager.Register<ChatManager>();
+
             ServerContentIoC.Register();
 
             IoCManager.BuildGraph();
@@ -30,6 +33,7 @@ namespace Content.Server
             factory.GenerateNetIds();
 
             // DEVNOTE: This is generally where you'll be setting up the IoCManager further.
+            IoCManager.Resolve<ChatManager>().Initialize();
         }
 
         public override void PostInit()

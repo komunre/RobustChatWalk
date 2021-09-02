@@ -1,5 +1,14 @@
 ﻿version: 1 # Currently unused.
 binds: # These are all the current engine keybinds.
+- function: ChatFocus
+  type: State
+  key: T
+- function: Send
+  type: State
+  key: Return
+- function: OpenEntitySpawn
+  type: State
+  key: Q
 - function: UIClick
   type: State
   key: MouseLeft
@@ -186,9 +195,3 @@ binds: # These are all the current engine keybinds.
   type: State
   key: Tab
   mod1: Shift
-- function: ChatFocus
-  type: Toggle
-  key: T
-- function: Send
-  type: Toggle
-  key: Return

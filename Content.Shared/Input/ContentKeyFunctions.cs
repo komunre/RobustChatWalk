@@ -11,5 +11,6 @@ namespace Content.Shared.Input
         //public static readonly BoundKeyFunction MoveDown = "MoveDown";
         public static readonly BoundKeyFunction ChatFocus = "ChatFocus";
         public static readonly BoundKeyFunction Send = "Send";
+        public static readonly BoundKeyFunction OpenEntSpawn = "OpenEntitySpawn";
     }
 }

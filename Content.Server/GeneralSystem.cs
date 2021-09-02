@@ -57,6 +57,8 @@ namespace Content.Server {
 
         private void StartGame() {
             _map = _mapManager.CreateMap();
+            var table = EntityManager.SpawnEntity("Table", new MapCoordinates(WalkArenaSize.X / 2f, WalkArenaSize.Y / 2f, _map));
+            table.Dirty();
         }
 
         private void Clear() {

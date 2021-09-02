@@ -19,7 +19,7 @@ namespace Content.Client.Overlays
         [Dependency] private readonly IResourceCache _resCache = default!;
         private ShaderInstance _shader;
         private TextureResource _playerTexture;
-        private TextureResource _floorTexture;
+        //private TextureResource _floorTexture;
 
         public override OverlaySpace Space => OverlaySpace.WorldSpace;
 
@@ -27,7 +27,7 @@ namespace Content.Client.Overlays
             IoCManager.InjectDependencies(this);
             _shader = _prototypeManager.Index<ShaderPrototype>("unshaded").Instance();
             _playerTexture = _resCache.GetResource<TextureResource>("/Textures/player.png");
-            _floorTexture = _resCache.GetResource<TextureResource>("/Textures/floor_tile.png");
+            //_floorTexture = _resCache.GetResource<TextureResource>("/Textures/floor_tile.png");
         }
         protected override void Draw(in OverlayDrawArgs args) {
             var handle = args.WorldHandle;

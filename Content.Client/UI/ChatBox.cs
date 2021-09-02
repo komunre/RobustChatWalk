@@ -5,6 +5,8 @@ using Robust.Client.UserInterface.CustomControls;
 using Robust.Shared.Maths;
 using Robust.Shared.IoC;
 using Robust.Shared.Log;
+using Content.Client.Chat;
+using Robust.Client.Player;
 
 namespace Content.Client.UI
 {
@@ -17,13 +19,15 @@ namespace Content.Client.UI
         private string _msg = "";
         public ChatBox() {
             AddChild(new PanelContainer {
-                VerticalExpand = true,
-                HorizontalExpand = true,
-                MinHeight = 170f,
-                MaxHeight = 170f,
+                MinHeight = 250f,
+                MaxHeight = 250f,
+                //Orientation = BoxContainer.LayoutOrientation.Vertical,
                 Children = {
                     (Contents = new OutputPanel {
-                        VerticalExpand = true
+                        Margin = new Thickness(0, 0),
+                        VerticalExpand = true,
+                        MinHeight = 200,
+                        MaxHeight = 200,
                     }),
                     (EditPanel = new BoxContainer {
                         //VerticalAlignment = VAlignment.Bottom,
@@ -32,6 +36,7 @@ namespace Content.Client.UI
                         //PanelOverride = new StyleBoxFlat { BackgroundColor = Color.White },
                         Children = {
                             (LineInput = new HistoryLineEdit {
+                                //Margin = new Thickness(0, 200),
                                 PlaceHolder = "Enter message",
                                 MinWidth = 300,
                                 HorizontalExpand = true,
@@ -61,6 +66,11 @@ namespace Content.Client.UI
             //LineInput.OnMouseEntered +=  EnterFocus;
             //LineInput.OnMouseExited += DeEnterFocus;
             //LineInput.OnTextEntered +=  // Message send here
+
+            IoCManager.Resolve<ChatManager>().SetPanel(Contents);
+            SendButton.OnButtonDown += (args) => {
+                IoCManager.Resolve<ChatManager>().SendMessage(_msg, IoCManager.Resolve<IPlayerManager>().LocalPlayer.Session.AttachedEntity);
+            };
         }
 
         public void ToggleKeyboardFocus() {
@@ -84,8 +94,9 @@ namespace Content.Client.UI
         private void OnTextChanged(LineEdit.LineEditEventArgs args) {
             _msg = args.Text;
             LineInput.Text = _msg;
+            LineInput.CursorPosition = _msg.Length;
             
-            Logger.Debug("Current message: " + _msg);
+            //Logger.Debug("Current message: " + _msg);
         }
 
         /*protected override void KeyBindDown(GUIBoundKeyEventArgs args) {
