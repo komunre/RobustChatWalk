@@ -4,3 +4,4 @@
     - type: Sprite
       sprite: /Textures/Food/orange.rsi
       state: icon
+    - type: Item

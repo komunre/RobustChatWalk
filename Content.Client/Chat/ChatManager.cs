@@ -1,7 +1,6 @@
 using Robust.Shared.IoC;
 using Robust.Shared.Network;
 using Content.Shared.GameOjects;
-using Content.Shared;
 using Content.Shared.Chat;
 using Robust.Shared.Log;
 using Robust.Client.UserInterface.Controls;
@@ -18,6 +17,7 @@ namespace Content.Client.Chat
             IoCManager.InjectDependencies(this);
 
             _netManager.RegisterNetMessage<ChatMessage>(OnChatMessage);
+
         }
 
         public void SetPanel(OutputPanel panel) {

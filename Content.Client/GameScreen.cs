@@ -62,7 +62,7 @@ namespace Content.Client
                 }
             }));
 
-            CommandBinds.Builder
+            /*CommandBinds.Builder
                 .Bind(ContentKeyFunctions.Send, InputCmdHandler.FromDelegate(_ => {
                     _gameChat.SendMessage();
                 }))
@@ -77,7 +77,7 @@ namespace Content.Client
                     else {
                         _spawnEntWindow.Close();
                     }
-                })).Register<GameScreen>();
+                })).Register<GameScreen>();*/
 
             LayoutContainer.SetAnchorAndMarginPreset(_gameChat, LayoutContainer.LayoutPreset.TopRight);
 

@@ -32,8 +32,8 @@ namespace Content.Client.Overlays
             if (_playerManager?.LocalPlayer?.Session?.AttachedEntity != null) {
                 var pos = _playerManager.LocalPlayer.Session.AttachedEntity.Transform.WorldPosition;
                 var size = _floorTexture.Texture.Size / (float) EyeManager.PixelsPerMeter;
-                for (var x = 1.0f; x < args.WorldBounds.Right; x += size.X) {
-                    for (var y = 1f; y < args.WorldBounds.Bottom; y += size.Y) {
+                for (var x = pos.X - args.WorldBounds.Right; x < args.WorldBounds.Right; x += size.X) {
+                    for (var y = pos.Y - args.WorldBounds.Bottom; y < args.WorldBounds.Bottom; y += size.Y) {
                         handle.DrawTexture(_floorTexture.Texture, new Vector2(x, y));
                     }
                 }
