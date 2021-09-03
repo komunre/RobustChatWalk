@@ -12,8 +12,8 @@ namespace Content.Server.Items
         {
             var target = Owner.EntityManager.GetEntity(id);
             if (target.TryGetComponent<InventoryComponent>(out var inventory)) {
-                if (!inventory.HasInInventory(Owner.Uid)) {
-                    inventory.PutIntoInventory(Owner.Uid);
+                if (!inventory.HasInInventory(Owner)) {
+                    inventory.PutIntoInventory(Owner);
                 }
             }
         }
