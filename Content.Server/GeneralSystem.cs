@@ -52,6 +52,7 @@ namespace Content.Server {
             var entity = EntityManager.SpawnEntity("Chatter",  new MapCoordinates(WalkArenaSize.X / 2f, WalkArenaSize.Y / 2f, _map));
             entity.Dirty();
             entity.GetComponent<ChatterComponent>().Dirty();
+            entity.Name = session.Name.Split("@")[1];
             session.AttachToEntity(entity);
         }
 

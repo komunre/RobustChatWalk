@@ -31,12 +31,14 @@ namespace Content.Client.UI
                     }),
                     (EditPanel = new BoxContainer {
                         //VerticalAlignment = VAlignment.Bottom,
+                        Margin = new Thickness(0, 250),
                         MaxHeight = 50f,
                         Orientation = BoxContainer.LayoutOrientation.Horizontal,
                         //PanelOverride = new StyleBoxFlat { BackgroundColor = Color.White },
                         Children = {
                             (LineInput = new HistoryLineEdit {
                                 //Margin = new Thickness(0, 200),
+                                MinHeight = 40f,
                                 PlaceHolder = "Enter message",
                                 MinWidth = 300,
                                 HorizontalExpand = true,
@@ -45,6 +47,7 @@ namespace Content.Client.UI
                             (SendButton = new Button {
                                 Text = "Send",
                                 MinWidth = 50,
+                                MinHeight = 40f,
                                 StyleClasses = { StyleChill.ButtonClass }
                             })
                         }
@@ -65,7 +68,9 @@ namespace Content.Client.UI
             LineInput.OnTextChanged += OnTextChanged;
             //LineInput.OnMouseEntered +=  EnterFocus;
             //LineInput.OnMouseExited += DeEnterFocus;
-            //LineInput.OnTextEntered +=  // Message send here
+            LineInput.OnTextEntered += _ => {
+                SendMessage();
+            };
 
             IoCManager.Resolve<ChatManager>().SetPanel(Contents);
             SendButton.OnButtonDown += (args) => {

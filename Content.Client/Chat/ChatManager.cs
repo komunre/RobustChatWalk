@@ -29,13 +29,13 @@ namespace Content.Client.Chat
             var message = _netManager.CreateNetMessage<ChatMessage>();
             message.Message = msg;
             message.Sender = chatter.Uid;
-            message.PlayerName = chatter.TryGetComponent<ChatterComponent>(out var comp) ? comp.PlayerName : "error";
+            message.PlayerName = chatter.Name;
             _netManager.ClientSendMessage(message);
         }
 
         private void OnChatMessage(ChatMessage msg) {
-            Logger.Debug("Got message: " + msg.Message);
-            _panel.AddText(msg.Message);
+            Logger.Debug("Got message: \"" + msg.Message + "\" from " + msg.PlayerName);
+            _panel.AddText(msg.PlayerName + " says: " + msg.Message);
         }
     }
 }
