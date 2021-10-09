@@ -1,0 +1,7 @@
+- type: entity
+  id: magic_wand
+  components:
+    - type: Equipment
+      damage: 5
+      defense: 0
+      ranged: false

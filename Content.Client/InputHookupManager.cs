@@ -35,8 +35,6 @@ namespace Content.Client
 
             var plyCoord = _playerManager.LocalPlayer.ControlledEntity.Transform.WorldPosition;
             var coord = _eyeManager.ScreenToMap(args.KeyEventArgs.PointerLocation).Position;
-            Logger.Debug("PlayerPos: " + plyCoord);
-            Logger.Debug("Point pos: " + coord.X + ":" + coord.Y);
             var entCoord = EntityCoordinates.Invalid;
             var entityLookup = IoCManager.Resolve<IEntityLookup>();
             var entitiesUnder = entityLookup.GetEntitiesInRange(_playerManager.LocalPlayer.ControlledEntity.Transform.MapID, coord, 0.3f);

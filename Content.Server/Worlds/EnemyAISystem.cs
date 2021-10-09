@@ -35,9 +35,10 @@ namespace Content.Server.Worlds
                     var dir = nearest.Owner.Transform.WorldPosition - enemy.Owner.Transform.WorldPosition;
                     enemy.Owner.Transform.WorldPosition += dir.Normalized * enemy.Speed * (float)_gameTiming.TickPeriod.TotalSeconds;
 
-                    if (dir.Length < 0.13f && nearest.Owner.TryGetComponent<DamageableComponent>(out var damageable))
+                    if (dir.Length < 0.4f && nearest.Owner.TryGetComponent<DamageableComponent>(out var damageable))
                     {
                         damageable.Health -= enemy.Damage  * (float)_gameTiming.TickPeriod.TotalSeconds;
+                        damageable.Dirty();
                     }
                 }
             }

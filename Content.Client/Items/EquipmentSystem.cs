@@ -23,12 +23,14 @@ namespace Content.Client.Items
             base.Initialize();
 
             CommandBinds.Builder
-                .Bind(ContentKeyFunctions.Shoot, new PointerInputCmdHandler(ShootHandle));
+                .Bind(ContentKeyFunctions.Shoot, new PointerInputCmdHandler(ShootHandle))
+                .Register<EquipmentSystem>();
+            Logger.Debug("Equipment system initialized");
         }
 
         private bool ShootHandle(in PointerInputCmdHandler.PointerInputCmdArgs args)
         {
-            if (args.State != BoundKeyState.Down) return false;
+            if (args.State != BoundKeyState.Down) return true;
 
             Logger.Debug("Shooting!");
             var ev = new EquipmentShootEvent();
@@ -37,7 +39,7 @@ namespace Content.Client.Items
 
             RaiseNetworkEvent(ev);
 
-            return false;
+            return true;
         }
     }
 }

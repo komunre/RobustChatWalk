@@ -19,7 +19,7 @@ namespace Content.Shared.GameOjects
     {
         public override string Name => "Chatter";
         public string PlayerName = "default";
-        public float Speed = 0.2f;
+        public float Speed = 4f;
         public Button PressedButton = Button.None;
         public int Money = 0;
         
@@ -64,6 +64,7 @@ namespace Content.Shared.GameOjects
             
             component.PressedButton = state.Pressed;
             component.PlayerName = state.PlayerName;
+            component.Money = state.Money;
         }
 
         private static void SetMovementInput(ICommonSession session, Button button, bool state) {

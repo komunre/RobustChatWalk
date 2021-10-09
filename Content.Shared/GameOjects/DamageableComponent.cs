@@ -26,17 +26,17 @@ namespace Content.Shared.GameOjects
         {
             base.Initialize();
 
-            //SubscribeLocalEvent<DamageableComponent, ComponentGetState>(GetDamageableState);
-            //SubscribeLocalEvent<DamageableComponent, ComponentHandleState>(HandleDamageableState);
+            SubscribeLocalEvent<DamageableComponent, ComponentGetState>(GetDamageableState);
+            SubscribeLocalEvent<DamageableComponent, ComponentHandleState>(HandleDamageableState);
         }
 
-        private void HandleDamageableState(EntityUid uid, DamageableComponent component, ComponentHandleState args)
+        private void HandleDamageableState(EntityUid uid, DamageableComponent component, ref ComponentHandleState args)
         {
             if (args.Current is not DamageableState state) return;
             component.Health = state.Health;
         }
 
-        private void GetDamageableState(EntityUid uid, DamageableComponent component, ComponentGetState args)
+        private void GetDamageableState(EntityUid uid, DamageableComponent component, ref ComponentGetState args)
         {
             args.State = new DamageableState(component.Health);
         }
