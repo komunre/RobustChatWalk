@@ -70,6 +70,7 @@ namespace Content.Client.UI
             //LineInput.OnMouseExited += DeEnterFocus;
             LineInput.OnTextEntered += _ => {
                 SendMessage();
+                LineInput.Text = "";
             };
 
             IoCManager.Resolve<ChatManager>().SetPanel(Contents);

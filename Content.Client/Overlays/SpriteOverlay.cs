@@ -10,7 +10,7 @@ namespace Content.Client.Overlays
     public class SpriteOverlay : Overlay
     {
         [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
-        [Dependency] private readonly IComponentManager _componentManager = default!;
+        [Dependency] private readonly IEntityManager _entityManager = default!;
 
         private ShaderInstance _shader;
         public override OverlaySpace Space => OverlaySpace.WorldSpace;
@@ -25,7 +25,7 @@ namespace Content.Client.Overlays
 
             handle.UseShader(_shader);
 
-            foreach (var sprite in _componentManager.EntityQuery<SpriteComponent>()) {
+            foreach (var sprite in _entityManager.EntityQuery<SpriteComponent>()) {
                 handle.DrawTexture(sprite.Icon.TextureFor(Robust.Shared.Maths.Direction.Invalid), sprite.Owner.Transform.WorldPosition);
             }
             

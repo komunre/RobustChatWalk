@@ -10,7 +10,6 @@ namespace Content.Shared.Items
     {
         [Dependency] protected readonly IEntityManager _entityManager = default!;
         [Dependency] protected readonly INetManager _netManager = default!;
-        [Dependency] private readonly IComponentManager _componentManager = default!;
 
     }
 

@@ -1,0 +1,10 @@
+- type: entity
+  id: monster
+  components:
+    - type: Sprite
+      sprite: /Textures/Living/monster.rsi
+      state: icon
+    - type: EnemyAI
+    - type: Damageable
+      health: 30
+      reward: 10

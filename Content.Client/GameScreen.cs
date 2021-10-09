@@ -35,6 +35,7 @@ namespace Content.Client
         public override void Startup()
         {
             _gameChat = new ChatBox() { Visible = true };
+            var totalData = new TotalData();
             Logger.Debug("GameScreen initialized");
 
             Viewport = new ViewportContainer {
@@ -51,8 +52,8 @@ namespace Content.Client
 
             _spawnEntWindow = new EntitySpawnWindow(IoCManager.Resolve<IPlacementManager>(), IoCManager.Resolve<IPrototypeManager>(), IoCManager.Resolve<IResourceCache>());
 
-            _spawnEntWindow.Open();
-            _inputManager.SetInputCommand(ContentKeyFunctions.OpenEntSpawn, InputCmdHandler.FromDelegate(_ => {
+            //_spawnEntWindow.Open();
+            /*_inputManager.SetInputCommand(ContentKeyFunctions.OpenEntSpawn, InputCmdHandler.FromDelegate(_ => {
                 Logger.Debug("Toggling spawn window...");
                 if (!_spawnEntWindow.IsOpen) {
                     _spawnEntWindow.Open();
@@ -60,7 +61,7 @@ namespace Content.Client
                 else {
                     _spawnEntWindow.Close();
                 }
-            }));
+            }));*/
 
             /*CommandBinds.Builder
                 .Bind(ContentKeyFunctions.Send, InputCmdHandler.FromDelegate(_ => {
@@ -80,9 +81,11 @@ namespace Content.Client
                 })).Register<GameScreen>();*/
 
             LayoutContainer.SetAnchorAndMarginPreset(_gameChat, LayoutContainer.LayoutPreset.TopRight);
+            LayoutContainer.SetAnchorAndMarginPreset(totalData, LayoutContainer.LayoutPreset.TopLeft);
 
             //Viewport.AddChild(_gameChat);
             _userInterfaceManager.StateRoot.AddChild(_gameChat);
+            _userInterfaceManager.StateRoot.AddChild(totalData);
             //_userInterfaceManager.StateRoot.AddChild(Viewport);
 
             //_eyeManager.MainViewport = Viewport;

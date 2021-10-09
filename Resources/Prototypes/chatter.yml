@@ -4,3 +4,6 @@
     - type: Chatter
     - type: Input
     - type: Inventory
+    - type: Damageable
+      health: 150
+      reward: 100

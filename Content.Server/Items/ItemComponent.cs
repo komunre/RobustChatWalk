@@ -15,6 +15,10 @@ namespace Content.Server.Items
                 if (!inventory.HasInInventory(Owner)) {
                     inventory.PutIntoInventory(Owner);
                 }
+                if (Owner.TryGetComponent<EquipmentComponent>(out var equipment))
+                {
+                    inventory.AddEquipment(equipment);
+                }
             }
         }
     }

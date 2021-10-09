@@ -9,6 +9,8 @@ using Content.Client.Overlays;
 using Robust.Client.State;
 using Content.Client.UI;
 using Content.Client.Chat;
+using Robust.Client.Input;
+using Content.Shared.Input;
 
 // DEVNOTE: Games that want to be on the hub are FORCED use the "Content." prefix for assemblies they want to load.
 namespace Content.Client
@@ -47,7 +49,6 @@ namespace Content.Client
             factory.GenerateNetIds();
 
             // DEVNOTE: This is generally where you'll be setting up the IoCManager further.
-            IoCManager.Resolve<InputHookupManager>().Initialize();
             IoCManager.Resolve<ChatManager>().Initialize();
         }
 
@@ -77,6 +78,16 @@ namespace Content.Client
             overlayManager.AddOverlay(new FloorOverlay());
 
             IoCManager.Resolve<IStateManager>().RequestStateChange<GameScreen>();
+
+            var inputManager = IoCManager.Resolve<IInputManager>();
+            var contexts = inputManager.Contexts;
+            var common = contexts.GetContext("common");
+            common.AddFunction(ContentKeyFunctions.WorldJump);
+            common.AddFunction(ContentKeyFunctions.Shoot);
+
+            contexts.SetActiveContext("common");
+
+            IoCManager.Resolve<InputHookupManager>().Initialize();
         }
 
         protected override void Dispose(bool disposing)

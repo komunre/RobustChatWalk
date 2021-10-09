@@ -14,7 +14,7 @@ namespace Content.Shared.GameOjects
         {
             base.UpdateBeforeSolve(prediction, frameTime);
 
-            foreach (var chatter in ComponentManager.EntityQuery<ChatterComponent>()) {
+            foreach (var chatter in EntityManager.EntityQuery<ChatterComponent>()) {
                 var speed = chatter.Speed;
                 var direction = Vector2.Zero;
 

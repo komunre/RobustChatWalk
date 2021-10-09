@@ -59,6 +59,7 @@ namespace Content.Server {
         private void StartGame() {
             _map = _mapManager.CreateMap();
             var table = EntityManager.SpawnEntity("Table", new MapCoordinates(WalkArenaSize.X / 2f, WalkArenaSize.Y / 2f, _map));
+            var orange = EntityManager.SpawnEntity("Orange", new MapCoordinates(WalkArenaSize.X / 2f, WalkArenaSize.Y / 2f, _map));
             table.Dirty();
         }
 
@@ -79,6 +80,11 @@ namespace Content.Server {
                     _gameState = GameState.Start;
                     break;
             }
+        }
+
+        public MapId GetMap()
+        {
+            return _map;
         }
     }
 }
