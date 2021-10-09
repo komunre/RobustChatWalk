@@ -33,6 +33,8 @@ namespace Content.Client
             if (!_entitySystemManager.TryGetEntitySystem<InputSystem>(out var inputSystem)) 
                 return;
 
+            if (_playerManager.LocalPlayer?.ControlledEntity?.Transform?.WorldPosition == null) return;
+
             var plyCoord = _playerManager.LocalPlayer.ControlledEntity.Transform.WorldPosition;
             var coord = _eyeManager.ScreenToMap(args.KeyEventArgs.PointerLocation).Position;
             var entCoord = EntityCoordinates.Invalid;

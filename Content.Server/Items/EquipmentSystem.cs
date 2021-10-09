@@ -13,6 +13,7 @@ using Robust.Shared.Random;
 using Robust.Shared.Log;
 using Robust.Server.Player;
 using Robust.Shared.Map;
+using Content.Server.Database;
 
 namespace Content.Server.Items
 {
@@ -47,7 +48,6 @@ namespace Content.Server.Items
 
         private void HandleShoot(EquipmentShootEvent args)
         {
-            Logger.Debug("Handling shoot");
             if (!EntityManager.TryGetEntity(args.Shooter, out var entity)) return;
             if (entity.TryGetComponent<InventoryComponent>(out var inv))
             {
@@ -67,6 +67,7 @@ namespace Content.Server.Items
                                 {
                                     if (entity.TryGetComponent<ChatterComponent>(out var chatter)) {
                                         chatter.Money += damageable.Reward;
+                                        IoCManager.Resolve<ServerDbSqlite>().SaveWealth(chatter.Owner.Name, chatter.Money);
                                     }
                                     damageable.Owner.Delete();
                                 }

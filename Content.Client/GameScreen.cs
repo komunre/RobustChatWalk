@@ -17,6 +17,7 @@ using Robust.Shared.Input.Binding;
 using Robust.Client.Placement;
 using Robust.Client.ResourceManagement;
 using Robust.Shared.Prototypes;
+using Content.Shared.GameOjects;
 
 namespace Content.Client
 {
@@ -30,12 +31,14 @@ namespace Content.Client
 
         public static readonly Vector2i ViewportSize = (EyeManager.PixelsPerMeter * 21, EyeManager.PixelsPerMeter * 15);
         private ChatBox _gameChat;
+        private AuthBox _authBox;
         public ViewportContainer Viewport { get; private set; }
         private EntitySpawnWindow _spawnEntWindow;
         public override void Startup()
         {
             _gameChat = new ChatBox() { Visible = true };
             var totalData = new TotalData();
+            _authBox = new AuthBox();
             Logger.Debug("GameScreen initialized");
 
             Viewport = new ViewportContainer {
@@ -82,10 +85,12 @@ namespace Content.Client
 
             LayoutContainer.SetAnchorAndMarginPreset(_gameChat, LayoutContainer.LayoutPreset.TopRight);
             LayoutContainer.SetAnchorAndMarginPreset(totalData, LayoutContainer.LayoutPreset.TopLeft);
+            LayoutContainer.SetAnchorAndMarginPreset(_authBox, LayoutContainer.LayoutPreset.Center);
 
             //Viewport.AddChild(_gameChat);
             _userInterfaceManager.StateRoot.AddChild(_gameChat);
             _userInterfaceManager.StateRoot.AddChild(totalData);
+            _userInterfaceManager.StateRoot.AddChild(_authBox);
             //_userInterfaceManager.StateRoot.AddChild(Viewport);
 
             //_eyeManager.MainViewport = Viewport;
@@ -98,6 +103,14 @@ namespace Content.Client
             var player = PlayerManager.LocalPlayer;
             if (player == null) {
                 return;
+            }
+
+            if (player.ControlledEntity != null && player.ControlledEntity.TryGetComponent<ChatterComponent>(out var chatter))
+            {
+                if (chatter.Authed)
+                {
+                    _authBox.Visible = false;
+                }
             }
         }
 

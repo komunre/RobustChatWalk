@@ -2,6 +2,8 @@ using Content.Shared.Items;
 using Robust.Shared.GameObjects;
 using Content.Server.Inventory;
 using Robust.Shared.Log;
+using Robust.Shared.IoC;
+using Content.Server.Database;
 
 namespace Content.Server.Items
 {
@@ -18,6 +20,7 @@ namespace Content.Server.Items
                 if (Owner.TryGetComponent<EquipmentComponent>(out var equipment))
                 {
                     inventory.AddEquipment(equipment);
+                    IoCManager.Resolve<ServerDbSqlite>().SaveEquipment(inventory.GetEquipment());
                 }
             }
         }

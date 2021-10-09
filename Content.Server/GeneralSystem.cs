@@ -49,7 +49,7 @@ namespace Content.Server {
         private void SpawnPlayer(IPlayerSession session) {
             Logger.Debug("Spawning player...");
             //var random = IoCManager.Resolve<RobustRandom>();
-            var entity = EntityManager.SpawnEntity("Chatter",  new MapCoordinates(WalkArenaSize.X / 2f, WalkArenaSize.Y / 2f, _map));
+            var entity = EntityManager.SpawnEntity("Chatter",  new MapCoordinates(0, 0, _map));
             entity.Dirty();
             entity.GetComponent<ChatterComponent>().Dirty();
             entity.Name = session.Name.Split("@")[1];
@@ -58,8 +58,8 @@ namespace Content.Server {
 
         private void StartGame() {
             _map = _mapManager.CreateMap();
-            var table = EntityManager.SpawnEntity("Table", new MapCoordinates(WalkArenaSize.X / 2f, WalkArenaSize.Y / 2f, _map));
-            var orange = EntityManager.SpawnEntity("Orange", new MapCoordinates(WalkArenaSize.X / 2f, WalkArenaSize.Y / 2f, _map));
+            var table = EntityManager.SpawnEntity("Table", new MapCoordinates(0, 0, _map));
+            var orange = EntityManager.SpawnEntity("Orange", new MapCoordinates(0, 0, _map));
             table.Dirty();
         }
 

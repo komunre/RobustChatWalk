@@ -41,17 +41,5 @@ namespace Content.Client.Worlds
             var args = new ChangeWorldEvent(_playerManager.LocalPlayer.ControlledEntity.Uid, _playerManager.LocalPlayer.ControlledEntity.Uid, true);
             RaiseNetworkEvent(args);
         }
-
-        public override void Update(float frameTime)
-        {
-            base.Update(frameTime);
-            if (_playerManager.LocalPlayer.ControlledEntity.HasComponent<ChatterComponent>() && _playerManager.LocalPlayer.ControlledEntity.TryGetComponent<DamageableComponent>(out var damageable))
-            {
-                if (damageable.Health <= 0)
-                {
-                    ChangeWorld();
-                }
-            }
-        }
     }
 }

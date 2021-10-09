@@ -5,6 +5,7 @@ using Robust.Shared.Timing;
 using Robust.Shared.Configuration;
 using Robust.Shared;
 using Content.Server.Chat;
+using Content.Server.Database;
 
 // DEVNOTE: Games that want to be on the hub are FORCED use the "Content." prefix for assemblies they want to load.
 namespace Content.Server
@@ -25,6 +26,7 @@ namespace Content.Server
             }
 
             IoCManager.Register<ChatManager>();
+            IoCManager.Register<ServerDbSqlite>();
 
             ServerContentIoC.Register();
 
@@ -42,6 +44,7 @@ namespace Content.Server
             // DEVNOTE: Can also initialize IoC stuff more here.
 
             //IoCManager.Resolve<IConfigurationManager>().SetCVar(CVars.NetPVS, false);
+            IoCManager.Resolve<ServerDbSqlite>().Initialize();
         }
 
         public override void Update(ModUpdateLevel level, FrameEventArgs frameEventArgs)

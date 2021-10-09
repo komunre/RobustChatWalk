@@ -22,6 +22,7 @@ namespace Content.Shared.GameOjects
         public float Speed = 4f;
         public Button PressedButton = Button.None;
         public int Money = 0;
+        public bool Authed = false;
         
         /*public override ComponentState GetComponentState(ICommonSession session) {
             return new ChatterComponentState(PressedButton, PlayerName);
@@ -55,7 +56,7 @@ namespace Content.Shared.GameOjects
         }
 
         private void GetChatterState(EntityUid id, ChatterComponent component, ref ComponentGetState args) {
-            args.State = new ChatterComponentState(component.PressedButton, component.PlayerName, component.Money);
+            args.State = new ChatterComponentState(component.PressedButton, component.PlayerName, component.Money, component.Authed);
         }
 
         private void HandleChatterState(EntityUid id, ChatterComponent component, ref ComponentHandleState args) {
@@ -65,6 +66,7 @@ namespace Content.Shared.GameOjects
             component.PressedButton = state.Pressed;
             component.PlayerName = state.PlayerName;
             component.Money = state.Money;
+            component.Authed = state.Authed;
         }
 
         private static void SetMovementInput(ICommonSession session, Button button, bool state) {
@@ -119,11 +121,13 @@ namespace Content.Shared.GameOjects
         public Button Pressed { get; }
         public string PlayerName { get; }
         public int Money = 0;
+        public bool Authed = false;
 
-        public ChatterComponentState(Button pressed, string playerName, int money) : base(/*ContentNetIDs.CHATTER*/) {
+        public ChatterComponentState(Button pressed, string playerName, int money, bool authed) : base(/*ContentNetIDs.CHATTER*/) {
             Pressed = pressed;
             PlayerName = playerName;
             Money = money;
+            Authed = authed;
         }
     }
     
