@@ -10,6 +10,7 @@ using Robust.Shared.Serialization;
 using Robust.Shared.Log;
 using Content.Shared;
 using Robust.Shared.GameStates;
+using Robust.Shared.Serialization.Manager.Attributes;
 
 namespace Content.Shared.GameOjects
 {
@@ -18,8 +19,10 @@ namespace Content.Shared.GameOjects
     {
         public override string Name => "Chatter";
         public string PlayerName = "default";
-        public float Speed = 0.2f;
+        public float Speed = 4f;
         public Button PressedButton = Button.None;
+        public int Money = 0;
+        public bool Authed = false;
         
         /*public override ComponentState GetComponentState(ICommonSession session) {
             return new ChatterComponentState(PressedButton, PlayerName);
@@ -53,7 +56,7 @@ namespace Content.Shared.GameOjects
         }
 
         private void GetChatterState(EntityUid id, ChatterComponent component, ref ComponentGetState args) {
-            args.State = new ChatterComponentState(component.PressedButton, component.PlayerName);
+            args.State = new ChatterComponentState(component.PressedButton, component.PlayerName, component.Money, component.Authed);
         }
 
         private void HandleChatterState(EntityUid id, ChatterComponent component, ref ComponentHandleState args) {
@@ -62,6 +65,8 @@ namespace Content.Shared.GameOjects
             
             component.PressedButton = state.Pressed;
             component.PlayerName = state.PlayerName;
+            component.Money = state.Money;
+            component.Authed = state.Authed;
         }
 
         private static void SetMovementInput(ICommonSession session, Button button, bool state) {
@@ -115,10 +120,14 @@ namespace Content.Shared.GameOjects
     public class ChatterComponentState : ComponentState {
         public Button Pressed { get; }
         public string PlayerName { get; }
+        public int Money = 0;
+        public bool Authed = false;
 
-        public ChatterComponentState(Button pressed, string playerName) : base(/*ContentNetIDs.CHATTER*/) {
+        public ChatterComponentState(Button pressed, string playerName, int money, bool authed) : base(/*ContentNetIDs.CHATTER*/) {
             Pressed = pressed;
             PlayerName = playerName;
+            Money = money;
+            Authed = authed;
         }
     }
     

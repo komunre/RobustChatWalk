@@ -37,7 +37,7 @@ namespace Content.Client.UI
             };
 
             var output = new StyleBoxFlat {
-                BackgroundColor = Color.FromHex("#c3dfe3"),
+                BackgroundColor = Color.FromHex("#006f80"),
             };
             
             StyleRules = new [] {

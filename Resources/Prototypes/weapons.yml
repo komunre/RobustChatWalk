@@ -1,0 +1,35 @@
+- type: entity
+  id: magic_wand
+  components:
+    - type: Equipment
+      damage: 5
+      defense: 0
+      ranged: false
+      
+- type: entity
+  id: sword
+  components:
+    - type: Equipment
+      damage: 10
+      defense: 2
+      ranged: false
+      
+- type: entity
+  id: copper_sword
+  parent: sword
+      
+- type: entity
+  id: iron_sword
+  parent: sword
+  components:
+    - type: Equipment
+      damage: 20
+      
+- type: entity
+  id: silver_sword
+  parent: sword
+  components:
+    - type: Equipment
+      damage: 40
+      defense: 0
+   

@@ -1,0 +1,51 @@
+- type: entity
+  id: monster
+  components:
+    - type: Sprite
+      sprite: /Textures/Living/monster.rsi
+      state: icon
+    - type: EnemyAI
+      speed: 0.8
+    - type: Damageable
+      health: 30
+      reward: 10
+      
+- type: entity
+  id: fasty
+  parent: monster
+  components:
+    - type: EnemyAI
+      speed: 3
+      damage: 25
+
+- type: entity
+  id: tankmer
+  parent: monster
+  components:
+    - type: Damageable
+      health: 220
+      reward: 60
+    - type: EnemyAI
+      speed: 0.23
+      damage: 80
+      
+- type: entity
+  id: speedodam
+  parent: monster
+  components:
+    - type: EnemyAI
+      speed: 1.6
+      damage: 130
+    - type: Damageable
+      health: 50
+      reward: 170
+
+- type: entity
+  id: oofer
+  parent: monster
+  components:
+    - type: EnemyAI
+      speed: 1.0
+      damage: 250
+    - type: Damageable
+      health: 340

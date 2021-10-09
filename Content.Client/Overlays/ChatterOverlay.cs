@@ -14,7 +14,6 @@ namespace Content.Client.Overlays
     public class ChatterOverlay : Overlay
     {
         [Dependency] private readonly IEntityManager _entityManager = default!;
-        [Dependency] private readonly IComponentManager _componentManager = default!;
         [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
         [Dependency] private readonly IResourceCache _resCache = default!;
         private ShaderInstance _shader;
@@ -34,7 +33,7 @@ namespace Content.Client.Overlays
 
             handle.UseShader(_shader);
 
-            foreach (var chatter in _componentManager.EntityQuery<ChatterComponent>()) {
+            foreach (var chatter in _entityManager.EntityQuery<ChatterComponent>()) {
                 //handle.DrawCircle(new Vector2(chatter.Owner.Transform.MapPosition.X, chatter.Owner.Transform.MapPosition.Y), 1.0f, Color.White);
                 //handle.DrawRect(new Box2(new Vector2(0, 0), new Vector2(1, 1)), Color.White, true);
                 handle.DrawTexture(_playerTexture.Texture, new Vector2(chatter.Owner.Transform.MapPosition.X, chatter.Owner.Transform.MapPosition.Y));

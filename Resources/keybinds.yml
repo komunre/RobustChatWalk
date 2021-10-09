@@ -1,8 +1,5 @@
 ﻿version: 1 # Currently unused.
 binds: # These are all the current engine keybinds.
-- function: ChatFocus
-  type: State
-  key: T
 - function: Send
   type: State
   key: Return
@@ -198,3 +195,12 @@ binds: # These are all the current engine keybinds.
   type: State
   key: Tab
   mod1: Shift
+- function: ChatFocus
+  type: State
+  key: T
+- function: WorldJump
+  type: State
+  key: J
+- function: Shoot
+  type: State
+  key: R

@@ -5,16 +5,19 @@ using Robust.Shared.Physics.Controllers;
 using Robust.Shared.GameObjects;
 using Robust.Shared.Maths;
 using Robust.Shared.Map;
+using Robust.Shared.Timing;
 
 namespace Content.Shared.GameOjects
 {
     public class ChatterController : VirtualController
     {
+        [Dependency] private readonly IGameTiming _gameTiming = default!;
         public override void UpdateBeforeSolve(bool prediction, float frameTime)
         {
             base.UpdateBeforeSolve(prediction, frameTime);
 
-            foreach (var chatter in ComponentManager.EntityQuery<ChatterComponent>()) {
+            foreach (var chatter in EntityManager.EntityQuery<ChatterComponent>()) {
+                if (!chatter.Authed) continue;
                 var speed = chatter.Speed;
                 var direction = Vector2.Zero;
 
@@ -33,7 +36,7 @@ namespace Content.Shared.GameOjects
                         break;
                 }
 
-                chatter.Owner.Transform.Coordinates += new EntityCoordinates(chatter.Owner.Transform.Parent.Owner.Uid, direction);
+                chatter.Owner.Transform.WorldPosition += direction * (float)_gameTiming.TickPeriod.TotalSeconds * speed;
             }
         }
     }
